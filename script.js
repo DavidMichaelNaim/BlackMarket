@@ -4,6 +4,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const pushImg = document.getElementById('pushImg');
     const gaugeFill = document.getElementById('gaugeFill');
 
+    // Preload All Assets to fix rotation/animation lag on GitHub Pages
+    const assetsToPreload = [
+        'assets/imgs/OpenPage_BG.png',
+        'assets/imgs/Machine_Capsule_Hide.png',
+        'assets/imgs/ItemBox/ItemBox_C.png',
+        'assets/imgs/PUSH/PUSH_UP.png',
+        'assets/imgs/PUSH/PUSH_Focus.png',
+        'assets/imgs/PUSH/PUSH_Down.png',
+        'assets/imgs/PUSH/PUSH_Dis.png',
+        'assets/imgs/OpenGauge_Bar/OpenGauge_Bar_BG.png',
+        'assets/imgs/OpenGauge_Bar/OpenGauge_Bar.png'
+    ];
+
+    const ballImages = [
+        'assets/imgs/GachaMachine_Ball/GachaMachine_Ball_Cash_Normal.png',
+        'assets/imgs/GachaMachine_Ball/GachaMachine_Ball_Cash_Rare.png',
+        'assets/imgs/GachaMachine_Ball/GachaMachine_Ball_GP_Normal.png',
+        'assets/imgs/GachaMachine_Ball/GachaMachine_Ball_GP_Rare.png'
+    ];
+
+    // Collect all Machine_Cash and Machine_Shoot frames
+    for (let i = 0; i <= 8; i++) assetsToPreload.push(`assets/imgs/Machine_Cash/Machine_Cash_0${i}.png`);
+    for (let i = 1; i <= 5; i++) assetsToPreload.push(`assets/imgs/Machine_Cash/Machine_Cash_Rolling_0${i}.png`);
+    for (let i = 1; i <= 6; i++) assetsToPreload.push(`assets/imgs/Machine_Shoot/Machine_GP_Shoot_0${i}.png`);
+    assetsToPreload.push('assets/imgs/Machine_Cash/Machine_Cash_Shoot.png');
+    assetsToPreload.push('assets/imgs/Machine_Cash/Machine_Cash_Opacity.png');
+    
+    // Merge balls
+    assetsToPreload.push(...ballImages);
+
+    function preloadImages() {
+        console.log("Preloading assets...");
+        assetsToPreload.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+    }
+    preloadImages();
+
     // 1. Random Start Frame (Machine_Cash_00 to 08)
     const startFrames = [];
     for (let i = 0; i <= 8; i++) {
@@ -69,13 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('reward1'),
         document.getElementById('reward2'),
         document.getElementById('reward3')
-    ];
-
-    const ballImages = [
-        'assets/imgs/GachaMachine_Ball/GachaMachine_Ball_Cash_Normal.png',
-        'assets/imgs/GachaMachine_Ball/GachaMachine_Ball_Cash_Rare.png',
-        'assets/imgs/GachaMachine_Ball/GachaMachine_Ball_GP_Normal.png',
-        'assets/imgs/GachaMachine_Ball/GachaMachine_Ball_GP_Rare.png'
     ];
 
     // Mouse Up (Release)

@@ -127,16 +127,19 @@ body {
 
 @keyframes reward-pop {
     0% {
+        -webkit-transform: scale(0.3) rotate(-10deg);
         transform: scale(0.3) rotate(-10deg);
         opacity: 0;
     }
 
     70% {
+        -webkit-transform: scale(1.1) rotate(5deg);
         transform: scale(1.1) rotate(5deg);
         opacity: 1;
     }
 
     100% {
+        -webkit-transform: scale(1) rotate(0deg);
         transform: scale(1) rotate(0deg);
         opacity: 1;
     }
