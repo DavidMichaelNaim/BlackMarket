@@ -110,15 +110,15 @@ body {
 }
 
 #reward1 {
-    animation-delay: 0.2s;
+    animation-delay: 0s; /* Start immediately */
 }
 
 #reward2 {
-    animation-delay: 0.4s;
+    animation-delay: 0.732s; /* Exactly match wav duration */
 }
 
 #reward3 {
-    animation-delay: 0.6s;
+    animation-delay: 1.464s; /* Second beat */
 }
 
 .reward-box img {

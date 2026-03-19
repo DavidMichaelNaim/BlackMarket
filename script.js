@@ -4,6 +4,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const pushImg = document.getElementById('pushImg');
     const gaugeFill = document.getElementById('gaugeFill');
 
+    // Audio Assets
+    const audioPush = new Audio('assets/Sounds/GachaPush/GachaPush.wav');
+    const audioRoll = new Audio('assets/Sounds/GachaMachineRoll/GachaMachineRoll.wav');
+    const audioStop = new Audio('assets/Sounds/GachaMachineStop/GachaMachineStop.wav');
+    const audioOpenFinal = new Audio('assets/Sounds/GachaOpenFinal/GachaOpenFinal.wav');
+    const audioNormalGet = new Audio('assets/Sounds/GachaNormalGet/GachaNormalGet.wav');
+    const audioRareGet = new Audio('assets/Sounds/GachaRareGet/GachaRareGet.wav');
+
+    audioRoll.loop = true;
+
     // Preload All Assets to fix rotation/animation lag on GitHub Pages
     const assetsToPreload = [
         'assets/imgs/OpenPage_BG.png',
@@ -14,7 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
         'assets/imgs/PUSH/PUSH_Down.png',
         'assets/imgs/PUSH/PUSH_Dis.png',
         'assets/imgs/OpenGauge_Bar/OpenGauge_Bar_BG.png',
-        'assets/imgs/OpenGauge_Bar/OpenGauge_Bar.png'
+        'assets/imgs/OpenGauge_Bar/OpenGauge_Bar.png',
+        'assets/Sounds/GachaPush/GachaPush.wav',
+        'assets/Sounds/GachaMachineRoll/GachaMachineRoll.wav',
+        'assets/Sounds/GachaMachineStop/GachaMachineStop.wav',
+        'assets/Sounds/GachaOpenFinal/GachaOpenFinal.wav',
+        'assets/Sounds/GachaNormalGet/GachaNormalGet.wav',
+        'assets/Sounds/GachaRareGet/GachaRareGet.wav'
     ];
 
     const ballImages = [
@@ -34,14 +50,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Merge balls
     assetsToPreload.push(...ballImages);
 
-    function preloadImages() {
+    function preloadAssets() {
         console.log("Preloading assets...");
         assetsToPreload.forEach(src => {
-            const img = new Image();
-            img.src = src;
+            if (src.endsWith('.png')) {
+                const img = new Image();
+                img.src = src;
+            } else if (src.endsWith('.wav')) {
+                const audio = new Audio();
+                audio.src = src;
+                audio.load();
+            }
         });
     }
-    preloadImages();
+    preloadAssets();
 
     // 1. Random Start Frame (Machine_Cash_00 to 08)
     const startFrames = [];
@@ -76,8 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.type === 'touchstart') e.preventDefault();
         if (isDisabled) return;
         
-        // Hide previous rewards if visible
+        // Unhide previous rewards if visible
         rewardContainer.classList.add('hidden');
+
+        // Play push sound
+        audioPush.currentTime = 0;
+        audioPush.play().catch(err => console.log("Audio play blocked: Interaction required."));
 
         isHolding = true;
         pushImg.src = 'assets/imgs/PUSH/PUSH_Down.png';
@@ -89,7 +115,11 @@ document.addEventListener('DOMContentLoaded', () => {
             mainMachine.src = `assets/imgs/Machine_Cash/Machine_Cash_Rolling_0${rollFrame}.png`;
             rollFrame++;
             if (rollFrame > 5) rollFrame = 1;
-        }, 80); // Adjust speed if necessary
+        }, 80);
+
+        // Loop rolling sound
+        audioRoll.currentTime = 0;
+        audioRoll.play().catch(() => {});
 
         // Gauge Fill Logic (Crop from right to left using clip-path)
         gaugeProgress = 100;
@@ -121,6 +151,15 @@ document.addEventListener('DOMContentLoaded', () => {
         isHolding = false;
         isDisabled = true;
 
+        // Stop Rolling and Filling
+        clearInterval(rollInterval);
+        clearInterval(holdInterval);
+
+        // Stop roll sound and play stop sound
+        audioRoll.pause();
+        audioStop.currentTime = 0;
+        audioStop.play().catch(() => {});
+
         // Show Disabled state for 2 seconds
         pushImg.src = 'assets/imgs/PUSH/PUSH_Dis.png';
         setTimeout(() => {
@@ -132,10 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 pushImg.src = 'assets/imgs/PUSH/PUSH_UP.png';
             }
         }, 2000);
-
-        // Stop Rolling and Filling
-        clearInterval(rollInterval);
-        clearInterval(holdInterval);
 
         // Instantly Reset Gauge
         gaugeFill.style.clipPath = `inset(0 100% 0 0)`;
@@ -161,17 +196,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }, 130);
 
-            // After a bit, hide the capsule and show opacity state + rewards
+            // Rewards start appearing
             setTimeout(() => {
                 machineCapsule.classList.add('hidden');
                 mainMachine.src = 'assets/imgs/Machine_Cash/Machine_Cash_Opacity.png';
 
                 // Randomize and show rewards
-                rewardBoxes.forEach(box => {
+                rewardBoxes.forEach((box, index) => {
                     const randomBall = ballImages[Math.floor(Math.random() * ballImages.length)];
                     box.innerHTML = `<img src="${randomBall}" class="reward-ball">`;
+                    
+                    // Play get sound with precise 0.732s delay
+                    setTimeout(() => {
+                        if (randomBall.includes('Rare')) {
+                            audioRareGet.currentTime = 0;
+                            audioRareGet.play().catch(() => {});
+                        } else {
+                            audioNormalGet.currentTime = 0;
+                            audioNormalGet.play().catch(() => {});
+                        }
+                    }, index * 732);
                 });
                 rewardContainer.classList.remove('hidden');
+
+                // Play open final sound 2 seconds after the last box reveals (1.464s + 2000ms)
+                setTimeout(() => {
+                    audioOpenFinal.currentTime = 0;
+                    audioOpenFinal.play().catch(() => {});
+                }, 3464);
 
                 // After another second, reset machine BUT KEEP REWARDS VISIBLE
                 setTimeout(() => {
