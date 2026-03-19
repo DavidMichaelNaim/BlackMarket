@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pushImg = document.getElementById('pushImg');
     const gaugeFill = document.getElementById('gaugeFill');
 
+<<<<<<< HEAD
     // Preload All Assets to fix rotation/animation lag on GitHub Pages
     const assetsToPreload = [
         'assets/imgs/OpenPage_BG.png',
@@ -43,6 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     preloadImages();
 
+=======
+>>>>>>> 918b00031e508a7881310348dac9e4e1754df9d4
     // 1. Random Start Frame (Machine_Cash_00 to 08)
     const startFrames = [];
     for (let i = 0; i <= 8; i++) {
@@ -110,6 +113,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('reward3')
     ];
 
+<<<<<<< HEAD
+=======
+    const ballImages = [
+        'assets/imgs/GachaMachine_Ball/GachaMachine_Ball_Cash_Normal.png',
+        'assets/imgs/GachaMachine_Ball/GachaMachine_Ball_Cash_Rare.png',
+        'assets/imgs/GachaMachine_Ball/GachaMachine_Ball_GP_Normal.png',
+        'assets/imgs/GachaMachine_Ball/GachaMachine_Ball_GP_Rare.png'
+    ];
+
+>>>>>>> 918b00031e508a7881310348dac9e4e1754df9d4
     // Mouse Up (Release)
     function handleRelease() {
         if (!isHolding) return;
