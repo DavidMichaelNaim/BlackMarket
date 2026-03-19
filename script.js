@@ -72,8 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Mouse Down (Hold)
-    pushBtn.addEventListener('mousedown', () => {
+    const handlePress = (e) => {
+        if (e.type === 'touchstart') e.preventDefault();
         if (isDisabled) return;
         
         // Hide previous rewards if visible
@@ -99,7 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (gaugeProgress < 0) gaugeProgress = 0;
             gaugeFill.style.clipPath = `inset(0 ${gaugeProgress}% 0 0)`;
         }, 20); // 20ms for smooth 60fps gauge filling
-    });
+    };
+
+    // Mouse Down (Hold)
+    pushBtn.addEventListener('mousedown', handlePress);
+    pushBtn.addEventListener('touchstart', handlePress, { passive: false });
 
     const machineFlash = document.getElementById('machineFlash');
     const machineCapsule = document.getElementById('machineCapsule');
@@ -111,7 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     // Mouse Up (Release)
-    function handleRelease() {
+    function handleRelease(e) {
+        if (e && e.type === 'touchend') e.preventDefault();
         if (!isHolding) return;
         isHolding = false;
         isDisabled = true;
@@ -120,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pushImg.src = 'assets/imgs/PUSH/PUSH_Dis.png';
         setTimeout(() => {
             isDisabled = false;
+            // For mobile, we just revert to UP because Hover doesn't really apply
             if (pushBtn.matches(':hover')) {
                 pushImg.src = 'assets/imgs/PUSH/PUSH_Focus.png';
             } else {
@@ -178,4 +184,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     pushBtn.addEventListener('mouseup', handleRelease);
     pushBtn.addEventListener('mouseleave', handleRelease);
+    pushBtn.addEventListener('touchend', handleRelease, { passive: false });
 });
