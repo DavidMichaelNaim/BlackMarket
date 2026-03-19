@@ -127,28 +127,19 @@ body {
 
 @keyframes reward-pop {
     0% {
-<<<<<<< HEAD
         -webkit-transform: scale(0.3) rotate(-10deg);
-=======
->>>>>>> 918b00031e508a7881310348dac9e4e1754df9d4
         transform: scale(0.3) rotate(-10deg);
         opacity: 0;
     }
 
     70% {
-<<<<<<< HEAD
         -webkit-transform: scale(1.1) rotate(5deg);
-=======
->>>>>>> 918b00031e508a7881310348dac9e4e1754df9d4
         transform: scale(1.1) rotate(5deg);
         opacity: 1;
     }
 
     100% {
-<<<<<<< HEAD
         -webkit-transform: scale(1) rotate(0deg);
-=======
->>>>>>> 918b00031e508a7881310348dac9e4e1754df9d4
         transform: scale(1) rotate(0deg);
         opacity: 1;
     }
