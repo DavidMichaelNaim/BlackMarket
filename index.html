@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crossfire Black Market Web</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="gacha-container">
+        <!-- Background -->
+        <div class="background-layer"></div>
+        <div class="sparks-container" id="sparks"></div>
+
+        <!-- Central Machine -->
+        <div class="machine-container">
+            <!-- Base Machine (rotating part) -->
+            <img src="" alt="Machine Cash" id="mainMachine">
+            <!-- Muzzle Flash Overlay (Hidden by default) -->
+            <img src="assets/imgs/Machine_Shoot/Machine_GP_Shoot_01.png" alt="Machine Flash" id="machineFlash" class="machine-overlay hidden">
+            <!-- Capsule Overlay (Hidden by default) -->
+            <img src="assets/imgs/Machine_Capsule_Hide.png" alt="Capsule" id="machineCapsule" class="machine-overlay hidden">
+        </div>
+
+        <!-- Reward Display (3 boxes) -->
+        <div class="reward-container hidden" id="rewardContainer">
+            <div class="reward-box" id="reward1"></div>
+            <div class="reward-box" id="reward2"></div>
+            <div class="reward-box" id="reward3"></div>
+        </div>
+
+        <!-- Bottom UI Area -->
+        <div class="bottom-ui">
+            <!-- PUSH Button -->
+            <button class="push-btn" id="pushBtn">
+                <img src="assets/imgs/PUSH/PUSH_UP.png" alt="PUSH" id="pushImg">
+            </button>
+
+            <!-- Gauge Area -->
+            <div class="gauge-area">
+                <img src="assets/imgs/OpenGauge_Bar/OpenGauge_Bar_BG.png" alt="Gauge BG" class="gauge-bg">
+                <img src="assets/imgs/OpenGauge_Bar/OpenGauge_Bar.png" alt="Gauge Fill" class="gauge-fill" id="gaugeFill">
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
